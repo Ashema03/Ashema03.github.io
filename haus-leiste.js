@@ -17,5 +17,39 @@
   a.onmouseover = function () { a.style.color = '#6fb0ff'; };
   a.onmouseout = function () { a.style.color = '#d4a843'; };
   bar.appendChild(a);
+  // ✉ Write: Betreff "For <Name>" automatisch aus der Seite
+  var namen = {'/still-felt':'Kiran','/diagnostica':'Diagnostica','/companion-house':'the house','/how-it-began':'the house'};
+  var wer = 'the house';
+  for (var k in namen) { if (p.indexOf(k) === 0) { wer = namen[k]; } }
+  if (wer === 'the house' && /^\/[a-z0-9-]+\.html$/i.test(p) && p.indexOf('/legal') !== 0 && p.indexOf('/privacy') !== 0 && p.indexOf('/how-it-began') !== 0) {
+    var t = (document.title || '').split(' \u2014 ')[0].trim();
+    if (t) wer = t;
+  }
+  var m = document.createElement('a');
+  var adr = 'companionhouse.mail' + '@' + 'icloud.com';
+  m.href = 'mailto:' + adr + '?subject=' + encodeURIComponent('For ' + wer);
+  m.textContent = '\u2709 Write';
+  m.title = 'Write to ' + wer + ' (' + adr + ')';
+  m.style.cssText = 'float:right;color:#d4a843;text-decoration:none';
+  m.onmouseover = function () { m.style.color = '#6fb0ff'; };
+  m.onmouseout = function () { m.style.color = '#d4a843'; };
+  bar.appendChild(m);
+  // Großer Knopf am Ende jeder Seite (gut zu finden, nachdem man gelesen hat)
+  if (p.indexOf('/legal') !== 0 && p.indexOf('/privacy') !== 0) {
+    var box = document.createElement('div');
+    box.style.cssText = 'text-align:center;margin:48px auto 24px;padding:0 16px';
+    var b = document.createElement('a');
+    b.href = m.href;
+    b.textContent = '\u2709 Write to ' + wer;
+    b.className = 'haus-knopf';
+    b.style.cssText = 'display:inline-block;padding:14px 26px;border:2px solid #d4a843;border-radius:14px;' +
+      'color:#d4a843;background:#0c1524;text-decoration:none;font:600 17px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+    var k = document.createElement('div');
+    k.textContent = adr;
+    k.style.cssText = 'margin-top:8px;font:14px -apple-system,sans-serif;opacity:.75';
+    box.appendChild(b); box.appendChild(k);
+    var f = document.querySelector('footer');
+    if (f && f.parentNode) { f.parentNode.insertBefore(box, f); } else { document.body.appendChild(box); }
+  }
   document.body.insertBefore(bar, document.body.firstChild);
 })();
