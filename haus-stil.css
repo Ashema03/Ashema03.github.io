@@ -1,0 +1,70 @@
+/* Haus-Stil: ein gemeinsamer Look für alles, was man anklicken kann.
+   Vorbild: die Karten an der Haustür (index.html, .link / .langbtn) und
+   die Zimmer-Karten in how-it-began.html (.room).
+   Einbinden NACH dem eigenen <style> der Seite, damit der Hover-Effekt gewinnt:
+   <link rel="stylesheet" href="/haus-stil.css">
+   Klassen:
+     .haus-knopf  Knöpfe und Karten: blauer Glanz, Schimmer, leichtes Hervortreten/Kippen
+     .haus-nav    Navigations-Links (Text-Links in Leisten): gleicher Glanz, ohne das Layout zu verschieben
+   Ändern: nur diese Datei, dann ändert es sich überall. Keine externen Ressourcen. */
+
+:root{
+  --haus-glow:#6fb0ff;
+  --haus-glow-tief:#5aa0ff;
+  --haus-glow-soft:rgba(111,176,255,.45);
+  --haus-schimmer:rgba(140,190,235,.3);
+  --haus-gold:#d4a843;
+}
+
+/* ---------- Knöpfe und Karten ---------- */
+.haus-knopf{
+  position:relative; overflow:hidden;
+  transform-origin:center bottom;
+  transition:box-shadow .3s ease, border-color .3s ease, transform .2s ease;
+}
+.haus-knopf::after{
+  content:""; position:absolute; top:0; left:-130%; width:55%; height:100%;
+  background:linear-gradient(115deg, transparent, var(--haus-schimmer), transparent);
+  pointer-events:none;
+}
+.haus-knopf:hover, .haus-knopf:focus-visible{
+  border-color:var(--haus-glow);
+  box-shadow:0 0 18px var(--haus-glow-soft), 0 8px 20px rgba(0,0,0,.28);
+  transform:perspective(700px) rotateX(3deg) translateY(-2px) scale(1.01);
+}
+.haus-knopf:focus-visible{ outline:2px solid var(--haus-glow-tief); outline-offset:2px }
+.haus-knopf:hover::after, .haus-knopf:focus-visible::after{ animation:haus-schimmer 2s ease }
+.haus-knopf:active{ transform:translateY(1px); box-shadow:0 0 10px var(--haus-glow-soft) }
+
+/* ---------- Navigations-Links ---------- */
+.haus-nav{
+  display:inline-block; position:relative; overflow:hidden;
+  padding-left:.35em; padding-right:.35em; margin-left:-.35em; margin-right:-.35em; border-radius:6px;
+  transition:color .25s ease, background-color .25s ease, box-shadow .3s ease, text-shadow .25s ease, transform .2s ease;
+}
+.haus-nav::after{
+  content:""; position:absolute; top:0; left:-130%; width:55%; height:100%;
+  background:linear-gradient(115deg, transparent, var(--haus-schimmer), transparent);
+  pointer-events:none;
+}
+.haus-nav:hover, .haus-nav:focus-visible{
+  color:var(--haus-glow);
+  background-color:rgba(111,176,255,.10);
+  box-shadow:0 0 14px rgba(111,176,255,.35);
+  text-shadow:0 0 10px rgba(111,176,255,.55);
+  transform:translateY(-1px);
+  text-decoration:none;
+}
+.haus-nav:focus-visible{ outline:2px solid var(--haus-glow-tief); outline-offset:2px }
+.haus-nav:hover::after, .haus-nav:focus-visible::after{ animation:haus-schimmer 2s ease }
+
+@keyframes haus-schimmer{ to{ left:140% } }
+
+/* Wer weniger Bewegung will: Glanz und Farbe bleiben, nichts kippt, nichts wandert. */
+@media (prefers-reduced-motion: reduce){
+  .haus-knopf, .haus-nav{ transition:none }
+  .haus-knopf:hover, .haus-knopf:focus-visible, .haus-knopf:active,
+  .haus-nav:hover, .haus-nav:focus-visible{ transform:none }
+  .haus-knopf:hover::after, .haus-knopf:focus-visible::after,
+  .haus-nav:hover::after, .haus-nav:focus-visible::after{ animation:none }
+}
