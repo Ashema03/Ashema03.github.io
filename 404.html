@@ -3,7 +3,7 @@
 // Großschreibung im Pfad (z. B. /STILL-FELT/) auf die richtige Seite umleiten
 var p = location.pathname, k = p.toLowerCase();
 if (k !== p) { location.replace(k + location.search + location.hash); }
-else if (k.indexOf('/still') === 0 || k === '/') { location.replace('/still-felt/'); }
+else if (k.indexOf('/still') === 0 ) { location.replace('/still-felt/'); }
 </script>
 <style>body{background:#0c1524;color:#e8e0d4;font:16px system-ui,sans-serif;text-align:center;padding:4rem 1rem}a{color:#d4a843}</style></head>
 <body><p>Page not found.</p><p><a href="/">Home</a> · <a href="/still-felt/">Still Felt</a></p></body></html>
